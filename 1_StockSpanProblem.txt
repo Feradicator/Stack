@@ -1,0 +1,86 @@
+//{ Driver Code Starts
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+
+
+// } Driver Code Ends
+
+class Solution {
+    // Function to calculate the span of stockâ€™s price for all n days.
+    public static int[] calculateSpan(int price[], int n) {
+         ArrayList<Integer>list=new ArrayList<>();
+         list.add(1);
+        
+        Stack<List<Integer>>st=new Stack<>();
+        st.push(Arrays.asList(price[0],0));
+        for(int i=1;i<n;i++)
+        {
+            int top=st.peek().get(0);
+            int index=st.peek().get(1);
+            if(top>price[i])
+            {
+                
+                list.add(i-index);
+                
+            }
+            else{
+                st.pop();
+                while(st.size()!=0)
+                {
+                   int top1=st.peek().get(0);
+                   int index1=st.peek().get(1); 
+                   if(top1>price[i])
+                    {
+                        
+                        list.add(i-index1);
+                        break;
+                
+                    }
+                    else
+                    st.pop();
+                   
+                }
+                if(st.size()==0)
+                {
+                   
+                    list.add(i+1);
+                }
+            }
+            st.push(Arrays.asList(price[i],i));
+        }
+        int []arr=new int[n];
+        for(int i=0;i<n;i++)
+        {
+            arr[i]=list.get(i);
+        }
+        return arr;
+        // Your code here
+    }
+}
+
+//{ Driver Code Starts.
+
+class gfg {
+    public static void main(String args[]) {
+        Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt();
+
+        while (t-- > 0) {
+            int n = sc.nextInt();
+            int a[] = new int[n];
+
+            int i = 0;
+            for (i = 0; i < n; i++) a[i] = sc.nextInt();
+
+            int[] s = new Solution().calculateSpan(a, n);
+
+            for (i = 0; i < n; i++) {
+                System.out.print(s[i] + " ");
+            }
+
+            System.out.println();
+        }
+    }
+}
+// } Driver Code Ends
